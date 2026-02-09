@@ -1,0 +1,19 @@
+env: dev
+
+paths:
+  base: "./data/dev"
+  bronze: "./data/dev/bronze"
+  silver: "./data/dev/silver"
+  gold: "./data/dev/gold"
+
+dataset:
+  name: "sales_daily"
+  input_path: "./data/dev/input/sales.csv"
+
+features:
+  enable_new_metric: false
+  drop_negative_amounts: true
+
+run:
+  write_format: "parquet"
+  max_rows_smoke: 200

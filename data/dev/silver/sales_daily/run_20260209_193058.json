@@ -1,0 +1,20 @@
+{
+  "env": "dev",
+  "input": {
+    "path": "./data/dev/input/sales.csv"
+  },
+  "output": {
+    "dataset_root": "./data/dev/silver/sales_daily",
+    "version": "20260209_193058"
+  },
+  "git_sha": "HEAD",
+  "features": {
+    "enable_new_metric": true,
+    "drop_negative_amounts": true
+  },
+  "row_counts": {
+    "input": 2000,
+    "output": 191
+  },
+  "created_at_utc": "2026-02-09T18:30:58.225352+00:00"
+}
