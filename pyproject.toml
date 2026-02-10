@@ -6,7 +6,7 @@ authors = ["ares.argiles@gmail.com"]
 packages = [{ include = "src" }]
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "3.10"
 
 [tool.poetry.dev-dependencies]
 black = "23.9.1"
