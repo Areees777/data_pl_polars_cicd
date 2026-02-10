@@ -1,0 +1,25 @@
+name: Release to Production
+
+on:
+  workflow_dispatch:  # That allows to manually run the workflow from GitHub
+
+jobs:
+  deploy-prod:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10.12'
+
+      - name: Run tests
+        run: pytest
+
+      - name: Deploy to Production
+        env:
+          ENV: prod
+        run: |
+          echo "Deploying to PROD environment"
