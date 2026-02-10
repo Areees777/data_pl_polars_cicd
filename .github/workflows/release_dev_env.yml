@@ -1,4 +1,4 @@
-name: Deploy DEV
+name: release-dev-env
 
 on:
   pull_request:
@@ -23,6 +23,6 @@ jobs:
         env:
           API_KEY_DEV: ${{ secrets.API_KEY_DEV }}
 
-      - name: Deploy to DEV
+      - name: release-dev-env
         run: |
           echo "Aquí va tu deploy real"
