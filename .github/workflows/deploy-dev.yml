@@ -1,0 +1,28 @@
+name: Deploy DEV
+
+on:
+  pull_request:
+    branches:
+      - dev
+    types:
+      - closed
+  
+jobs:
+  deploy:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    environment: dev
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check secret
+        run: |
+          echo "API_KEY_DEV is set"
+          test -n "$API_KEY_DEV"
+        env:
+          API_KEY_DEV: ${{ secrets.API_KEY_DEV }}
+
+      - name: Deploy to DEV
+        run: |
+          echo "Aquí va tu deploy real"
