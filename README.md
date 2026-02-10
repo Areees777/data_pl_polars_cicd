@@ -15,7 +15,6 @@ The project follows professional data engineering practices:
 - Pre-commit hooks to enforce code quality  
 - Unit tests for all functions  
 - CI/CD for automated quality checks and safe deployments
-
 ---
 
 ## Project Structure
