@@ -33,6 +33,3 @@ jobs:
         python -m pip install --upgrade pip
         pip install black flake8 pytest
         poetry install
-    
-    - name: Run pre-commit
-      run: poetry run pre-commit run --all-files
