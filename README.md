@@ -152,4 +152,4 @@ This ensures only validated code reaches the main branch.
 - Add more edge case unit tests to increase coverage
 - Add visual documentation of the pipeline flow
 - Structured logging for monitoring pipeline execution
-- Prepare pipeline for automated deployment to different environments
+- Prepare pipeline for automated deployment to different GitHub environments
