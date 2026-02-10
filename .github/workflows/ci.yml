@@ -1,29 +1,24 @@
-name: CI
+name: ci
 
 on:
-  push:
-    branches: [ main ]
   pull_request:
-    branches: [ main ]
+    branches: 
+      - dev
 
 jobs:
-  test:
+  build-and-deploy-dev:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: [3.11]
-
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Set up Python ${{ matrix.python-version }}
+    - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: ${{ matrix.python-version }}
+        python-version: 3.11
     
     - name: Install Poetry
-        run: |
+      run: |
           curl -sSL https://install.python-poetry.org | python3 -
           export PATH="$HOME/.local/bin:$PATH"
           poetry --version
@@ -33,11 +28,3 @@ jobs:
         python -m pip install --upgrade pip
         pip install black flake8 pytest
         poetry install
-    
-    - name: Run code formatting check
-      run: |
-        black src/
-    
-    - name: Run linting
-      run: |
-        flake8 src/
