@@ -60,10 +60,12 @@ def load_versioned(
     file_path = version_path / filename
 
     if isinstance(df, pl.LazyFrame):
-        if write_format == "parquet":
-            df.collect().write_parquet(file_path)
-        else:
-            df.write_parquet(file_path)
+        df = df.collect()
+
+    if write_format == "parquet":
+        df.write_parquet(file_path)
+    else:
+        raise ValueError(f"Unsupported write_format: {write_format}")
 
     # Escribimos el path del ultimo parquet para leer solo los datos del LATEST
     latest_pointer = Path(dataset_root) / "LATEST"
