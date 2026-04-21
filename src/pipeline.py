@@ -12,7 +12,10 @@ from steps.transform import transform_sales
 
 def get_env() -> str:
     # default a dev si no está definida
-    return os.getenv("APP_ENV", "dev")
+    env = os.getenv("APP_ENV", "dev")
+    if env not in {"dev", "prod"}:
+        raise ValueError(f"Invalid APP_ENV: {env}")
+    return env
 
 
 def load_config(path: str) -> AppConfig:
@@ -23,8 +26,10 @@ def load_config(path: str) -> AppConfig:
 def run_pipeline(cfg: AppConfig, *, smoke: bool = False) -> dict:
     git_sha = os.getenv("GIT_SHA")
     lf = extract_csv(cfg.dataset.input_path)
+    print("Lazy input DataFrame created")
 
     in_rows = lf.select(pl.len()).collect().item()
+    print(f"Input rows = {in_rows}")
 
     if smoke:
         lf = lf.limit(cfg.run.max_rows_smoke)
@@ -34,9 +39,11 @@ def run_pipeline(cfg: AppConfig, *, smoke: bool = False) -> dict:
         drop_negative_amounts=cfg.features.drop_negative_amounts,
         enable_new_metric=cfg.features.enable_new_metric,
     )
+    print("Lazy input DataFrame transformed")
 
     df_out = lf_t.collect()
     out_rows = df_out.height
+    print(f"Output rows = {out_rows}")
 
     dataset_root = f"{cfg.paths.silver}/{cfg.dataset.name}"
     info = load_versioned(
@@ -45,6 +52,8 @@ def run_pipeline(cfg: AppConfig, *, smoke: bool = False) -> dict:
         write_format=cfg.run.write_format,
         git_sha=git_sha,
     )
+    print("Lazy input DataFrame load versioned")
+    print(f"Dataset root = {dataset_root}")
 
     write_run_metadata(
         output_root=dataset_root,
@@ -55,6 +64,7 @@ def run_pipeline(cfg: AppConfig, *, smoke: bool = False) -> dict:
         features=cfg.features.model_dump(),
         row_counts={"input": in_rows, "output": out_rows},
     )
+    print("Lazy input DataFrame write metadata")
 
 
 def main():
